@@ -124,6 +124,7 @@ fun manHinhChao() {
                         text = "Get Started",
                         fontWeight = FontWeight(600),
                         fontSize = 18.sp,
+                        fontFamily = FontFamily(Font(R.font.gelasio_regular)),
                     )
                 }
             }
