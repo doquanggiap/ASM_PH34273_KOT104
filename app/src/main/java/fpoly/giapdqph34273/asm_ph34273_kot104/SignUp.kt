@@ -3,6 +3,7 @@ package fpoly.giapdqph34273.asm_ph34273_kot104
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -47,7 +48,7 @@ import androidx.core.graphics.toColorInt
 class SignUp : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        enableEdgeToEdge()
         setContent {
             preview()
         }
@@ -75,18 +76,14 @@ private fun getLayout() {
 
         thanhNgangIcon()
 
-        Column(
-            modifier = Modifier.padding(20.dp)
-        ) {
-
-            Text(
-                text = "WELCOME",
-                fontFamily = FontFamily(Font(R.font.merriweather_regular)),
-                fontSize = 24.sp,
-                fontWeight = FontWeight(700)
-
-            )
-        }
+        Text(
+            text = "WELCOME",
+            fontFamily = FontFamily(Font(R.font.merriweather_regular)),
+            fontSize = 24.sp,
+            fontWeight = FontWeight(700),
+            modifier = Modifier
+                .padding(20.dp)
+        )
 
         Column(
             verticalArrangement = Arrangement.Center,
@@ -147,6 +144,7 @@ private fun nameInput() {
         ),
     )
 }
+
 @Composable
 private fun emailInput() {
     var email by remember {
@@ -208,6 +206,7 @@ private fun passwordInput() {
         }
     )
 }
+
 @Composable
 private fun comfirmPasswordInput() {
     var cfPassword by remember { mutableStateOf("") }
@@ -244,6 +243,7 @@ private fun comfirmPasswordInput() {
         }
     )
 }
+
 @Composable
 private fun thanhNgangIcon() {
     Row(
