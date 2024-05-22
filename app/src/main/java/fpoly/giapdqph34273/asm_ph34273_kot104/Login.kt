@@ -1,12 +1,14 @@
 package fpoly.giapdqph34273.asm_ph34273_kot104
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -41,30 +43,27 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import androidx.navigation.NavController
 
-class Login : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            preview()
-        }
-    }
+@Composable
+fun Login(navController: NavController) {
+    preview(navController)
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun preview() {
-    getLayout()
+private fun preview(navController: NavController? = null) {
+    getLayout(navController)
 }
 
 
 @Composable
-private fun getLayout() {
+private fun getLayout(navController: NavController? = null) {
 
     Column(
         Modifier
@@ -123,11 +122,11 @@ private fun getLayout() {
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            loginBtn()
+            loginBtn(navController)
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            chuyenSangDangKy()
+            chuyenSangDangKy(navController)
         }
 
 
@@ -146,9 +145,11 @@ private fun forgetPass() {
 }
 
 @Composable
-private fun loginBtn() {
+private fun loginBtn(navController: NavController? = null) {
     Button(
-        onClick = { },
+        onClick = {
+            navController?.navigate(Screen.Home.route)
+        },
         colors = ButtonDefaults.buttonColors(
             Color("#242424".toColorInt())
         ),
@@ -170,16 +171,18 @@ private fun loginBtn() {
 }
 
 @Composable
-private fun chuyenSangDangKy() {
+private fun chuyenSangDangKy(navController: NavController? = null) {
     Text(
         text = "SIGN UP",
         fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
         fontWeight = FontWeight(600),
         fontSize = 18.sp,
         color = Color("#303030".toColorInt()),
+        modifier = Modifier.clickable {
+            navController?.navigate(Screen.SignUp.route)
+        }
     )
 }
-
 
 @Composable
 private fun emailInput() {
