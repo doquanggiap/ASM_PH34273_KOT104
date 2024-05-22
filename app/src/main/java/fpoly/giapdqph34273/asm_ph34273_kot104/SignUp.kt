@@ -3,10 +3,8 @@ package fpoly.giapdqph34273.asm_ph34273_kot104
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,7 +19,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -47,10 +44,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 
-class Login : ComponentActivity() {
+class SignUp : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
         setContent {
             preview()
         }
@@ -62,7 +59,6 @@ class Login : ComponentActivity() {
 private fun preview() {
     getLayout()
 }
-
 
 @Composable
 private fun getLayout() {
@@ -82,17 +78,9 @@ private fun getLayout() {
         Column(
             modifier = Modifier.padding(20.dp)
         ) {
-            Text(
-                text = "Hello !",
-                fontFamily = FontFamily(Font(R.font.merriweather_regular)),
-                color = Color("#909090".toColorInt()),
-                fontSize = 30.sp,
-                modifier = Modifier.padding(bottom = 10.dp),
-                fontWeight = FontWeight(400)
-            )
 
             Text(
-                text = "WELCOME BACK",
+                text = "WELCOME",
                 fontFamily = FontFamily(Font(R.font.merriweather_regular)),
                 fontSize = 24.sp,
                 fontWeight = FontWeight(700)
@@ -106,21 +94,21 @@ private fun getLayout() {
             modifier = Modifier
                 .background(Color.White)
                 .fillMaxWidth(0.9f)
-                .fillMaxHeight(0.8f)
+                .fillMaxHeight(0.9f)
                 .shadow(
                     elevation = 10.dp,
                     spotColor = Color("#f4f5f6".toColorInt()),
                 )
         ) {
             Column {
+                nameInput()
+                Spacer(modifier = Modifier.height(30.dp))
                 emailInput()
                 Spacer(modifier = Modifier.height(30.dp))
                 passwordInput()
+                Spacer(modifier = Modifier.height(30.dp))
+                comfirmPasswordInput()
             }
-
-            Spacer(modifier = Modifier.height(30.dp))
-
-            forgetPass()
 
             Spacer(modifier = Modifier.height(30.dp))
 
@@ -128,7 +116,7 @@ private fun getLayout() {
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            chuyenSangDangKy()
+            chuyenSangDangNhap()
         }
 
 
@@ -136,52 +124,29 @@ private fun getLayout() {
 }
 
 @Composable
-private fun forgetPass() {
-    Text(
-        text = "Forgot Password",
-        fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
-        fontWeight = FontWeight(600),
-        fontSize = 18.sp,
-        color = Color("#303030".toColorInt()),
-    )
-}
-
-@Composable
-private fun loginBtn() {
-    Button(
-        onClick = { },
-        colors = ButtonDefaults.buttonColors(
-            Color("#242424".toColorInt())
-        ),
-        modifier = Modifier
-            .background(
-                Color("#242424".toColorInt()),
-                shape = RoundedCornerShape(4.dp)
-            )
-            .height(50.dp)
-            .width(285.dp)
-    ) {
-        Text(
-            text = "Log in",
-            fontWeight = FontWeight(600),
-            fontSize = 18.sp,
-            fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
-        )
+private fun nameInput() {
+    var name by remember {
+        mutableStateOf("")
     }
-}
-
-@Composable
-private fun chuyenSangDangKy() {
     Text(
-        text = "SIGN UP",
+        text = "Name",
+        color = Color("#909090".toColorInt()),
         fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
-        fontWeight = FontWeight(600),
-        fontSize = 18.sp,
-        color = Color("#303030".toColorInt()),
+        fontWeight = FontWeight(400),
+        fontSize = 14.sp,
+    )
+
+    TextField(
+        value = name,
+        onValueChange = { name = it },
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = Color.White,
+            unfocusedContainerColor = Color.White,
+            unfocusedIndicatorColor = Color("#E0E0E0".toColorInt()),
+            focusedIndicatorColor = Color.Gray
+        ),
     )
 }
-
-
 @Composable
 private fun emailInput() {
     var email by remember {
@@ -243,7 +208,42 @@ private fun passwordInput() {
         }
     )
 }
+@Composable
+private fun comfirmPasswordInput() {
+    var cfPassword by remember { mutableStateOf("") }
+    var cfPasswordVisibility by remember { mutableStateOf(false) }
+    Text(
+        text = "Password",
+        color = Color("#909090".toColorInt()),
+        fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
+        fontWeight = FontWeight(400),
+        fontSize = 14.sp,
+    )
 
+    TextField(
+        value = cfPassword,
+        onValueChange = { cfPassword = it },
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = Color.White,
+            unfocusedContainerColor = Color.White,
+            unfocusedIndicatorColor = Color("#E0E0E0".toColorInt()),
+            focusedIndicatorColor = Color.Gray
+        ),
+        visualTransformation = if (cfPasswordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        trailingIcon = {
+            IconButton(onClick = { cfPasswordVisibility = !cfPasswordVisibility }) {
+                Image(
+                    painter = painterResource(id = if (cfPasswordVisibility) R.drawable.eye_slash_icon else R.drawable.eye_icon),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .height(20.dp)
+                        .width(20.dp)
+                )
+            }
+        }
+    )
+}
 @Composable
 private fun thanhNgangIcon() {
     Row(
@@ -272,25 +272,49 @@ private fun thanhNgangIcon() {
 }
 
 @Composable
-fun sofaIcon() {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
+private fun loginBtn() {
+    Button(
+        onClick = { },
+        colors = ButtonDefaults.buttonColors(
+            Color("#242424".toColorInt())
+        ),
         modifier = Modifier
-            .height(64.dp)
-            .width(64.dp)
-            .border(1.dp, Color("#303030".toColorInt()), RoundedCornerShape(50.dp))
-
+            .background(
+                Color("#242424".toColorInt()),
+                shape = RoundedCornerShape(4.dp)
+            )
+            .height(50.dp)
+            .width(285.dp)
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.sofa_login),
-            contentDescription = "",
-            Modifier
-                .width(35.dp)
-                .height(44.dp)
+        Text(
+            text = "SIGN UP",
+            fontWeight = FontWeight(600),
+            fontSize = 18.sp,
+            fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
         )
     }
 }
 
+@Composable
+private fun chuyenSangDangNhap() {
 
+    Row {
+        Text(
+            text = "Already have account? ",
+            fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
+            fontWeight = FontWeight(600),
+            fontSize = 14.sp,
+            color = Color("#808080".toColorInt()),
+        )
 
+        Text(
+            text = "SIGN UP",
+            fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
+            fontWeight = FontWeight(700),
+            fontSize = 14.sp,
+            color = Color("#303030".toColorInt()),
+        )
+
+    }
+
+}
