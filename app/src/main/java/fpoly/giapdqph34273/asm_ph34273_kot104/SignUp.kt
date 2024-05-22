@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -48,17 +49,17 @@ import androidx.navigation.NavController
 
 @Composable
 fun SignUp(navController: NavController) {
-    preview()
+    preview(navController)
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun preview() {
-    getLayout()
+private fun preview(navController: NavController? = null) {
+    getLayout(navController)
 }
 
 @Composable
-private fun getLayout() {
+private fun getLayout(navController: NavController? = null) {
 
     Column(
         Modifier
@@ -105,11 +106,11 @@ private fun getLayout() {
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            loginBtn()
+            signUpBtn(navController)
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            chuyenSangDangNhap()
+            chuyenSangDangNhap(navController)
         }
 
 
@@ -268,9 +269,11 @@ private fun thanhNgangIcon() {
 }
 
 @Composable
-private fun loginBtn() {
+private fun signUpBtn(navController: NavController? = null) {
     Button(
-        onClick = { },
+        onClick = {
+            navController?.navigate(Screen.Login.route)
+        },
         colors = ButtonDefaults.buttonColors(
             Color("#242424".toColorInt())
         ),
@@ -292,9 +295,14 @@ private fun loginBtn() {
 }
 
 @Composable
-private fun chuyenSangDangNhap() {
+private fun chuyenSangDangNhap(navController: NavController? = null) {
 
-    Row {
+    Row(
+        modifier = Modifier
+            .clickable(onClick = {
+                navController?.navigate(Screen.Login.route)
+            })
+    ) {
         Text(
             text = "Already have account? ",
             fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
@@ -304,7 +312,7 @@ private fun chuyenSangDangNhap() {
         )
 
         Text(
-            text = "SIGN UP",
+            text = "SIGN IN",
             fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
             fontWeight = FontWeight(700),
             fontSize = 14.sp,
