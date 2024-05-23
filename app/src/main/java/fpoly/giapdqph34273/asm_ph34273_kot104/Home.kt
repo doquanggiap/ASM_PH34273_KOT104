@@ -2,6 +2,7 @@ package fpoly.giapdqph34273.asm_ph34273_kot104
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -38,26 +39,21 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavController
 
-@Composable
-fun Home(navController: NavController? = null) {
-    preview()
-}
-
 @Preview(showBackground = true)
 @Composable
-private fun preview() {
-    getLayout()
+fun Home(navController: NavController? = null) {
+    getLayout(navController)
 }
 
 @Composable
-private fun getLayout() {
+private fun getLayout(navController: NavController? = null) {
 
     Scaffold(
         topBar = {
             thanhTopbar()
         },
         content = {
-            NoiDung(it)
+            NoiDung(it, navController)
         }
     )
 }
@@ -65,7 +61,7 @@ private fun getLayout() {
 data class ProductModel(val name: String, val image: Int, val price: Float)
 
 @Composable
-fun NoiDung(paddingValues: PaddingValues) {
+fun NoiDung(paddingValues: PaddingValues, navController: NavController? = null) {
     val productList = mutableListOf<ProductModel>()
     productList.add(ProductModel("Chair", R.drawable.lamp, 100f))
     productList.add(ProductModel("Table", R.drawable.minimalstand, 200f))
@@ -94,14 +90,14 @@ fun NoiDung(paddingValues: PaddingValues) {
 
         ) {
             items(productList) { model ->
-                ItemGrid(model)
+                ItemGrid(model, navController)
             }
         }
     }
 }
 
 @Composable
-fun ItemGrid(model: ProductModel) {
+fun ItemGrid(model: ProductModel, navController: NavController? = null) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -109,8 +105,16 @@ fun ItemGrid(model: ProductModel) {
             .padding(
                 bottom = 16.dp
             )
+
     ) {
-        Box {
+        Box(
+            modifier = Modifier
+                .clickable(
+                    onClick = {
+                        navController?.navigate(Screen.ProductDetail.route)
+                    }
+                )
+        ) {
             Image(
                 painter = painterResource(id = model.image),
                 contentDescription = model.name,
@@ -131,9 +135,11 @@ fun ItemGrid(model: ProductModel) {
 
 
         Column(
-            modifier = Modifier.padding(
-                start = 15.dp
-            ).align(Alignment.Start)
+            modifier = Modifier
+                .padding(
+                    start = 15.dp
+                )
+                .align(Alignment.Start)
         ) {
             Text(
                 text = model.name,

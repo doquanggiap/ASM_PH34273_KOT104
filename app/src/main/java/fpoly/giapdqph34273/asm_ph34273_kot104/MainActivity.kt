@@ -10,9 +10,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-//            ScreenNavigation()
+            ScreenNavigation()
 //            Home(navController = null)
-            MyBottombar()
+//            MyBottombar()
+//            ProductDetail()
         }
     }
 }
