@@ -5,4 +5,9 @@ enum class Screen(val route: String) {
     Login("Login"),
     SignUp("SignUp"),
     Home("Home"),
+    Favorite("Favorite"),
+    Notification("Notification"),
+    Profile("Profile"),
+    MyBottombar("MyBottombar"),
+
 }

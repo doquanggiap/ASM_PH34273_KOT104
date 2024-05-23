@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -11,7 +12,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -34,7 +39,7 @@ import androidx.core.graphics.toColorInt
 import androidx.navigation.NavController
 
 @Composable
-fun Home(navController: NavController) {
+fun Home(navController: NavController? = null) {
     preview()
 }
 
@@ -53,38 +58,100 @@ private fun getLayout() {
         },
         content = {
             NoiDung(it)
-        },
-        bottomBar = {
-            thanhBottomBar()
         }
     )
 }
 
-@Composable
-fun thanhBottomBar() {
-    Row(
-        modifier = Modifier
-            .background(Color.Red)
-            .fillMaxWidth()
-            .height(75.dp),
-    ) {
-
-    }
-}
+data class ProductModel(val name: String, val image: Int, val price: Float)
 
 @Composable
 fun NoiDung(paddingValues: PaddingValues) {
+    val productList = mutableListOf<ProductModel>()
+    productList.add(ProductModel("Chair", R.drawable.lamp, 100f))
+    productList.add(ProductModel("Table", R.drawable.minimalstand, 200f))
+    productList.add(ProductModel("Armchair", R.drawable.desk, 300f))
+    productList.add(ProductModel("Bed", R.drawable.chair, 400f))
+    productList.add(ProductModel("Lamp", R.drawable.lamp, 500f))
+    productList.add(ProductModel("Chair", R.drawable.chair, 100f))
 
     Column(
         modifier = Modifier
             .background(Color("#fefefe".toColorInt()))
-            .padding(paddingValues)
             .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         typeList()
+
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+//            modifier = Modifier.padding(16.dp),
+            contentPadding = PaddingValues(
+                start = 16.dp,
+                top = 25.dp,
+                end = 16.dp,
+                bottom = 16.dp
+            )
+
+        ) {
+            items(productList) { model ->
+                ItemGrid(model)
+            }
+        }
     }
+}
+
+@Composable
+fun ItemGrid(model: ProductModel) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .padding(
+                bottom = 16.dp
+            )
+    ) {
+        Box {
+            Image(
+                painter = painterResource(id = model.image),
+                contentDescription = model.name,
+                modifier = Modifier
+                    .height(200.dp)
+                    .width(157.dp)
+            )
+
+            Image(
+                painter = painterResource(id = R.drawable.addtocart),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(50.dp)
+                    .align(Alignment.BottomEnd)
+                    .padding(8.dp)
+            )
+        }
 
 
+        Column(
+            modifier = Modifier.padding(
+                start = 15.dp
+            ).align(Alignment.Start)
+        ) {
+            Text(
+                text = model.name,
+                color = Color("#606060".toColorInt()),
+                fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
+                fontWeight = FontWeight(400),
+                fontSize = 14.sp
+            )
+
+            Text(
+                text = "$${model.price}",
+                color = Color("#303030".toColorInt()),
+                fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
+                fontWeight = FontWeight(700),
+                fontSize = 14.sp
+            )
+        }
+    }
 }
 
 @Composable

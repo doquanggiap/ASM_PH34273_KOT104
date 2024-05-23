@@ -90,6 +90,7 @@ private fun getLayout(navController: NavController? = null) {
                 .background(color = Color("#E0E0E0".toColorInt()))
                 .fillMaxSize()
                 .background(color = Color.White)
+                .padding(it)
 
         ) {
 
@@ -214,7 +215,7 @@ private fun getLayout(navController: NavController? = null) {
                                 snackbarHostState.showSnackbar("Không được để trống")
                             }
                         } else {
-                            navController?.navigate(Screen.Home.route)
+                            navController?.navigate(Screen.MyBottombar.route)
                         }
                     },
                     colors = ButtonDefaults.buttonColors(

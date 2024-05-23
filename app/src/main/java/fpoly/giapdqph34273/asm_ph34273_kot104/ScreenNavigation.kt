@@ -15,6 +15,6 @@ fun ScreenNavigation() {
         composable(Screen.Boarding.route) { Boarding(navController) }
         composable(Screen.Login.route) { Login(navController) }
         composable(Screen.SignUp.route) { SignUp(navController) }
-        composable(Screen.Home.route) { Home(navController) }
+        composable(Screen.MyBottombar.route) { MyBottombar() }
     }
 }
