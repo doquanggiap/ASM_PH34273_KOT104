@@ -24,14 +24,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -339,7 +337,9 @@ fun ProductDetail(navController: NavController? = null) {
                 }
 
                 Button(
-                    onClick = {},
+                    onClick = {
+                        navController?.navigate(Screen.Cart.route)
+                    },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color("#242424".toColorInt())
                     ),

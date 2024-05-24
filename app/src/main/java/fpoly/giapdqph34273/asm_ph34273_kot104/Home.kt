@@ -50,7 +50,7 @@ private fun getLayout(navController: NavController? = null) {
 
     Scaffold(
         topBar = {
-            thanhTopbar()
+            thanhTopbar(navController)
         },
         content = {
             NoiDung(it, navController)
@@ -228,7 +228,7 @@ fun typeList() {
 }
 
 @Composable
-private fun thanhTopbar() {
+private fun thanhTopbar(navController: NavController? = null) {
     Row(
         modifier = Modifier
             .background(Color("#fefefe".toColorInt()))
@@ -272,10 +272,12 @@ private fun thanhTopbar() {
             )
         }
 
-        IconButton(onClick = { }) {
+        IconButton(onClick = {
+            navController?.navigate(Screen.Cart.route)
+        }) {
             Image(
                 painter = painterResource(id = R.drawable.cart_icon),
-                contentDescription = "search_icon",
+                contentDescription = "",
                 modifier = Modifier
                     .height(24.dp)
                     .width(24.dp)

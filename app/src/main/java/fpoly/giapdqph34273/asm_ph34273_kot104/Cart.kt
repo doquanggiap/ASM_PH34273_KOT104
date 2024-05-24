@@ -25,10 +25,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import androidx.navigation.NavController
 
 @Preview(showBackground = true)
 @Composable
-fun Cart() {
+fun Cart(navController: NavController? = null) {
     Scaffold(
         topBar = {
             thanhTopbar()
@@ -60,7 +61,6 @@ private fun thanhTopbar() {
     ) {
         IconButton(
             onClick = { },
-            Modifier.background(Color.Red)
         ) {
             Image(
                 painter = painterResource(id = R.drawable.back_icon),
