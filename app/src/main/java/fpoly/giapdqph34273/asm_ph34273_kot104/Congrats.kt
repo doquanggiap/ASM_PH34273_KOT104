@@ -127,7 +127,9 @@ fun Congrats(navController: NavController? = null) {
 
         Button(
             onClick = {
-                navController?.navigate(Screen.MyBottombar.route)
+                navController?.navigate(Screen.MyBottombar.route){
+                    popUpTo(0)
+                }
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.White

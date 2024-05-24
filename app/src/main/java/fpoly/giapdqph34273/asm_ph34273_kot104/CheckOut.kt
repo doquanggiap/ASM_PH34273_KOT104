@@ -317,7 +317,9 @@ private fun tinhTien() {
 private fun checkOut(navController: NavController? = null) {
     Button(
         onClick = {
-            navController?.navigate(Screen.Congrats.route)
+            navController?.navigate(Screen.Congrats.route){
+                popUpTo(0)
+            }
         },
         colors = ButtonDefaults.buttonColors(
             containerColor = Color("#242424".toColorInt())
