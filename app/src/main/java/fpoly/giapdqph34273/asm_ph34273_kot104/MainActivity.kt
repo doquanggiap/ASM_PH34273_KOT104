@@ -14,7 +14,8 @@ class MainActivity : ComponentActivity() {
 //            Home(navController = null)
 //            MyBottombar()
 //            ProductDetail()
-            Cart()
+//            Cart()
+            CheckOut()
         }
     }
 }

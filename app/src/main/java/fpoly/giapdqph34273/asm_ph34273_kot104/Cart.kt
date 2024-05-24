@@ -48,16 +48,16 @@ import androidx.navigation.NavController
 fun Cart(navController: NavController? = null) {
     Scaffold(
         topBar = {
-            thanhTopbar()
+            thanhTopbar(navController)
         },
         content = {
-            NoiDung(it)
+            NoiDung(it,navController)
         }
     )
 }
 
 @Composable
-fun NoiDung(paddingValues: PaddingValues) {
+private fun NoiDung(paddingValues: PaddingValues,navController: NavController? = null) {
     val cartList = mutableListOf<ProductModel>()
     cartList.add(ProductModel("Product 1", R.drawable.minimalstand, 10.0f))
     cartList.add(ProductModel("Product 2", R.drawable.lamp, 20.0f))
@@ -92,7 +92,7 @@ fun NoiDung(paddingValues: PaddingValues) {
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            checkOut()
+            checkOut(navController)
         }
 
     }
@@ -159,7 +159,7 @@ fun enterCode() {
 }
 
 @Composable
-fun tinhTien() {
+private fun tinhTien() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -191,10 +191,10 @@ fun tinhTien() {
 }
 
 @Composable
-fun checkOut() {
+private fun checkOut(navController: NavController? = null) {
     Button(
         onClick = {
-//            navController?.navigate(Screen.Cart.route)
+            navController?.navigate(Screen.CheckOut.route)
         },
         colors = ButtonDefaults.buttonColors(
             containerColor = Color("#242424".toColorInt())
@@ -212,7 +212,7 @@ fun checkOut() {
             )
     ) {
         Text(
-            text = "Add to cart",
+            text = "Check out",
             color = Color.White,
             fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
             fontWeight = FontWeight(600),
@@ -352,7 +352,7 @@ fun ItemCart(image: Int, name: String, price: Float) {
 }
 
 @Composable
-private fun thanhTopbar() {
+private fun thanhTopbar(navController: NavController? = null) {
 
     Box(
         Modifier.padding(top = 20.dp)
@@ -383,7 +383,9 @@ private fun thanhTopbar() {
             Modifier.padding(16.dp)
         ) {
             IconButton(
-                onClick = { },
+                onClick = {
+                    navController?.popBackStack()
+                },
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.back_icon),

@@ -19,5 +19,6 @@ fun ScreenNavigation() {
         composable(Screen.Home.route) { Home(navController) }
         composable(Screen.ProductDetail.route) { ProductDetail(navController) }
         composable(Screen.Cart.route) { Cart(navController) }
+        composable(Screen.CheckOut.route) { CheckOut(navController) }
     }
 }

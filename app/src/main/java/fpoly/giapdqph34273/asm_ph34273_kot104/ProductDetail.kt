@@ -54,7 +54,9 @@ fun ProductDetail(navController: NavController? = null) {
                 .zIndex(1f)
         ) {
             IconButton(
-                onClick = { },
+                onClick = {
+                    navController?.popBackStack()
+                },
                 Modifier
                     .background(
                         Color.White,

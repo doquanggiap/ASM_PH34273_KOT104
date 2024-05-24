@@ -61,7 +61,7 @@ private fun getLayout(navController: NavController? = null) {
 data class ProductModel(val name: String, val image: Int, val price: Float)
 
 @Composable
-fun NoiDung(paddingValues: PaddingValues, navController: NavController? = null) {
+private fun NoiDung(paddingValues: PaddingValues, navController: NavController? = null) {
     val productList = mutableListOf<ProductModel>()
     productList.add(ProductModel("Chair", R.drawable.lamp, 100f))
     productList.add(ProductModel("Table", R.drawable.minimalstand, 200f))

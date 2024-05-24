@@ -11,5 +11,6 @@ enum class Screen(val route: String) {
     MyBottombar("MyBottombar"),
     ProductDetail("ProductDetail"),
     Cart("Cart"),
+    CheckOut("CheckOut"),
 
 }
