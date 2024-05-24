@@ -40,16 +40,16 @@ import androidx.navigation.NavController
 fun CheckOut(navController: NavController? = null) {
     Scaffold(
         topBar = {
-            thanhTopbar()
+            thanhTopbar(navController)
         },
         content = {
-            NoiDung(it)
+            NoiDung(it,navController)
         }
     )
 }
 
 @Composable
-private fun thanhTopbar() {
+private fun thanhTopbar(navController: NavController? = null) {
 
     Box(
         Modifier.padding(top = 20.dp)
@@ -80,7 +80,9 @@ private fun thanhTopbar() {
             Modifier.padding(16.dp)
         ) {
             IconButton(
-                onClick = { },
+                onClick = {
+                    navController?.popBackStack()
+                },
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.back_icon),
@@ -96,7 +98,7 @@ private fun thanhTopbar() {
 }
 
 @Composable
-private fun NoiDung(paddingValues: PaddingValues) {
+private fun NoiDung(paddingValues: PaddingValues,navController: NavController? = null) {
     Box(
         modifier = Modifier
             .padding(paddingValues)
@@ -113,11 +115,6 @@ private fun NoiDung(paddingValues: PaddingValues) {
         }
 
 
-
-
-
-
-
         Column(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
@@ -128,7 +125,7 @@ private fun NoiDung(paddingValues: PaddingValues) {
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            checkOut()
+            checkOut(navController)
         }
 
     }
@@ -320,7 +317,7 @@ private fun tinhTien() {
 private fun checkOut(navController: NavController? = null) {
     Button(
         onClick = {
-            navController?.navigate(Screen.CheckOut.route)
+            navController?.navigate(Screen.Congrats.route)
         },
         colors = ButtonDefaults.buttonColors(
             containerColor = Color("#242424".toColorInt())
@@ -338,7 +335,7 @@ private fun checkOut(navController: NavController? = null) {
             )
     ) {
         Text(
-            text = "Check out",
+            text = "SUBMIT ORDER",
             color = Color.White,
             fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
             fontWeight = FontWeight(600),

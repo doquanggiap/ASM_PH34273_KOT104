@@ -12,5 +12,6 @@ enum class Screen(val route: String) {
     ProductDetail("ProductDetail"),
     Cart("Cart"),
     CheckOut("CheckOut"),
+    Congrats("Congrats"),
 
 }
