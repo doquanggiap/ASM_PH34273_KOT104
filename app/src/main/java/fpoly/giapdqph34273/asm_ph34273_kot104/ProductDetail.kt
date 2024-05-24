@@ -48,22 +48,36 @@ fun ProductDetail(navController: NavController? = null) {
         Box(
             modifier = Modifier
                 .padding(
-                    start = 20.dp,
+                    start = 50.dp,
                     top = 50.dp,
                     end = 20.dp,
                     bottom = 20.dp
                 )
+                .zIndex(1f)
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.back_icon),
-                contentDescription = null,
+            IconButton(
+                onClick = { },
                 Modifier
-                    .size(40.dp)
-                    .clickable(onClick = {
-                        navController?.popBackStack()
-                    })
-            )
+                    .background(
+                        Color.White,
+                        shape = RoundedCornerShape(6.dp)
+                    )
+
+                    .width(40.dp)
+                    .height(40.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.back_icon),
+                    contentDescription = "search_icon",
+                    modifier = Modifier
+                        .height(24.dp)
+                        .width(24.dp)
+                )
+            }
         }
+
+
+
 
         Box(
             modifier = Modifier

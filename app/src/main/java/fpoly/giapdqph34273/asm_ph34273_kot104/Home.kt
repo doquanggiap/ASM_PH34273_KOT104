@@ -228,7 +228,7 @@ fun typeList() {
 }
 
 @Composable
-fun thanhTopbar() {
+private fun thanhTopbar() {
     Row(
         modifier = Modifier
             .background(Color("#fefefe".toColorInt()))
