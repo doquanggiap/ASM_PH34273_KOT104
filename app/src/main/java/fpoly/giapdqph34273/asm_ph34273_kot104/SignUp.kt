@@ -2,7 +2,6 @@ package fpoly.giapdqph34273.asm_ph34273_kot104
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,6 +21,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -82,6 +82,7 @@ private fun getLayout(navController: NavController? = null) {
                 .background(color = Color("#E0E0E0".toColorInt()))
                 .fillMaxSize()
                 .background(color = Color.White)
+                .padding(it)
 
         ) {
 
@@ -235,7 +236,13 @@ private fun getLayout(navController: NavController? = null) {
                             coroutineScope.launch {
                                 snackbarHostState.showSnackbar("Không được để trống")
                             }
-                        } else if (password != cfPassword) {
+                        }
+                        else if (email.isBlank() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                            coroutineScope.launch {
+                                snackbarHostState.showSnackbar("Email không hợp lệ")
+                            }
+
+                        }else if (password != cfPassword) {
                             coroutineScope.launch {
                                 snackbarHostState.showSnackbar("Nhập lại mật khẩu sai")
                             }
@@ -296,31 +303,31 @@ private fun thanhNgangIcon() {
         )
     }
 }
+
 @Composable
 private fun chuyenSangDangNhap(navController: NavController? = null) {
 
-    Row(
-        modifier = Modifier
-            .clickable(onClick = {
-                navController?.navigate(Screen.Login.route)
-            })
-    ) {
-        Text(
-            text = "Already have account? ",
-            fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
-            fontWeight = FontWeight(600),
-            fontSize = 14.sp,
-            color = Color("#808080".toColorInt()),
-        )
+    TextButton(onClick = {
+        navController?.navigate(Screen.Login.route)
+    }) {
+        Row {
+            Text(
+                text = "Already have account? ",
+                fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
+                fontWeight = FontWeight(600),
+                fontSize = 14.sp,
+                color = Color("#808080".toColorInt()),
+            )
 
-        Text(
-            text = "SIGN IN",
-            fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
-            fontWeight = FontWeight(700),
-            fontSize = 14.sp,
-            color = Color("#303030".toColorInt()),
-        )
+            Text(
+                text = "SIGN IN",
+                fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
+                fontWeight = FontWeight(700),
+                fontSize = 14.sp,
+                color = Color("#303030".toColorInt()),
+            )
 
+        }
     }
 
 }

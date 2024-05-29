@@ -23,6 +23,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -192,18 +193,20 @@ private fun getLayout(navController: NavController? = null) {
                 Spacer(modifier = Modifier.height(30.dp))
 
                 // quên mật khẩu
-                Text(
-                    text = "Forgot Password",
-                    fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
-                    fontWeight = FontWeight(600),
-                    fontSize = 18.sp,
-                    color = Color("#303030".toColorInt()),
-                    modifier = Modifier.clickable {
-                        coroutineScope.launch {
-                            snackbarHostState.showSnackbar("Chưa có chức năng này")
-                        }
+                TextButton(onClick = {
+                    coroutineScope.launch {
+                        snackbarHostState.showSnackbar("Chưa có chức năng này")
                     }
-                )
+                }) {
+                    Text(
+                        text = "Forgot Password",
+                        fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
+                        fontWeight = FontWeight(600),
+                        fontSize = 18.sp,
+                        color = Color("#303030".toColorInt()),
+
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(30.dp))
 
@@ -250,16 +253,17 @@ private fun getLayout(navController: NavController? = null) {
 
 @Composable
 private fun chuyenSangDangKy(navController: NavController? = null) {
-    Text(
-        text = "SIGN UP",
-        fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
-        fontWeight = FontWeight(600),
-        fontSize = 18.sp,
-        color = Color("#303030".toColorInt()),
-        modifier = Modifier.clickable {
-            navController?.navigate(Screen.SignUp.route)
-        }
-    )
+    TextButton(onClick = {
+        navController?.navigate(Screen.SignUp.route)
+    }) {
+        Text(
+            text = "SIGN UP",
+            fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
+            fontWeight = FontWeight(600),
+            fontSize = 18.sp,
+            color = Color("#303030".toColorInt()),
+        )
+    }
 }
 
 @Composable
