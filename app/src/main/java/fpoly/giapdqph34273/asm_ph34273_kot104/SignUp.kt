@@ -131,6 +131,7 @@ private fun getLayout(navController: NavController? = null) {
                             unfocusedIndicatorColor = Color("#E0E0E0".toColorInt()),
                             focusedIndicatorColor = Color.Gray
                         ),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
                     )
 
                     Spacer(modifier = Modifier.height(30.dp))
@@ -153,6 +154,7 @@ private fun getLayout(navController: NavController? = null) {
                             unfocusedIndicatorColor = Color("#E0E0E0".toColorInt()),
                             focusedIndicatorColor = Color.Gray
                         ),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
                     )
 
                     Spacer(modifier = Modifier.height(30.dp))
