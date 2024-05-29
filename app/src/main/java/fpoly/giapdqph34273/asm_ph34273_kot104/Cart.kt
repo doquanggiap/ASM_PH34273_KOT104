@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -62,6 +63,10 @@ private fun NoiDung(paddingValues: PaddingValues,navController: NavController? =
     cartList.add(ProductModel("Product 1", R.drawable.minimalstand, 10.0f))
     cartList.add(ProductModel("Product 2", R.drawable.lamp, 20.0f))
     cartList.add(ProductModel("Product 3", R.drawable.chair, 30.0f))
+    cartList.add(ProductModel("Product 3", R.drawable.chair, 30.0f))
+    cartList.add(ProductModel("Product 3", R.drawable.chair, 30.0f))
+    cartList.add(ProductModel("Product 3", R.drawable.chair, 30.0f))
+    cartList.add(ProductModel("Product 4", R.drawable.chair, 30.0f))
 
     Box(
         modifier = Modifier
@@ -69,7 +74,11 @@ private fun NoiDung(paddingValues: PaddingValues,navController: NavController? =
             .fillMaxSize()
     ) {
 
-        LazyColumn {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxHeight(0.8f)
+                .padding(bottom = 20.dp)
+        ) {
             items(cartList) { item ->
                 ItemCart(
                     image = item.image,

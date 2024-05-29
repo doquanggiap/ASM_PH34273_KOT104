@@ -75,6 +75,7 @@ private fun NoiDung(paddingValues: PaddingValues, navController: NavController? 
             .background(Color("#fefefe".toColorInt()))
             .fillMaxSize()
             .padding(top = paddingValues.calculateTopPadding()),
+//            .padding(paddingValues),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         typeList()
