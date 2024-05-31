@@ -15,9 +15,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -36,10 +40,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -79,6 +85,8 @@ private fun getLayout(navController: NavController? = null) {
 
     var password by remember { mutableStateOf("") }
     var passwordVisibility by remember { mutableStateOf(false) }
+
+    var keyboardCtrl = LocalSoftwareKeyboardController.current
 
 
     Scaffold(
@@ -145,13 +153,31 @@ private fun getLayout(navController: NavController? = null) {
                     TextField(
                         value = email,
                         onValueChange = { email = it },
+                        modifier = Modifier.fillMaxWidth(0.8f),
                         colors = TextFieldDefaults.colors(
                             focusedContainerColor = Color.White,
                             unfocusedContainerColor = Color.White,
                             unfocusedIndicatorColor = Color("#E0E0E0".toColorInt()),
                             focusedIndicatorColor = Color.Gray
                         ),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+                        singleLine = true,
+                        trailingIcon = {
+                            IconButton(onClick = { email = "" }) {
+                                if (email.isNotEmpty()) {
+                                    Icon(
+                                        imageVector = Icons.Filled.Clear,
+                                        contentDescription = "",
+                                        modifier = Modifier
+                                            .height(20.dp)
+                                            .width(20.dp)
+                                    )
+                                }
+                            }
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Next
+                        )
                     )
 
                     Spacer(modifier = Modifier.height(30.dp))
@@ -176,7 +202,10 @@ private fun getLayout(navController: NavController? = null) {
                             focusedIndicatorColor = Color.Gray
                         ),
                         visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Password,
+                            imeAction = ImeAction.Done
+                        ),
                         trailingIcon = {
                             IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
                                 Image(
@@ -187,7 +216,20 @@ private fun getLayout(navController: NavController? = null) {
                                         .width(20.dp)
                                 )
                             }
-                        }
+                        },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth(0.8f),
+                        keyboardActions = KeyboardActions(
+                            onDone = {
+                                keyboardCtrl?.hide()
+                                if (email.isBlank() || password.isBlank()) {
+                                    coroutineScope.launch {
+                                        snackbarHostState.showSnackbar("Không được để trống")
+                                    }
+                                } else {
+                                    navController?.navigate(Screen.MyBottombar.route)
+                                }
+                            })
                     )
                 }
 
@@ -205,7 +247,6 @@ private fun getLayout(navController: NavController? = null) {
                         fontWeight = FontWeight(600),
                         fontSize = 18.sp,
                         color = Color("#303030".toColorInt()),
-
                     )
                 }
 
