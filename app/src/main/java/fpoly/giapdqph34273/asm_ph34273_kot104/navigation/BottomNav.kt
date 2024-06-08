@@ -1,4 +1,4 @@
-package fpoly.giapdqph34273.asm_ph34273_kot104
+package fpoly.giapdqph34273.asm_ph34273_kot104.navigation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.height
@@ -19,6 +19,11 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import fpoly.giapdqph34273.asm_ph34273_kot104.ui.screen.Favourite
+import fpoly.giapdqph34273.asm_ph34273_kot104.ui.screen.Home
+import fpoly.giapdqph34273.asm_ph34273_kot104.ui.screen.Notification
+import fpoly.giapdqph34273.asm_ph34273_kot104.ui.screen.Profile
+import fpoly.giapdqph34273.asm_ph34273_kot104.R
 
 
 @Preview(showBackground = true)

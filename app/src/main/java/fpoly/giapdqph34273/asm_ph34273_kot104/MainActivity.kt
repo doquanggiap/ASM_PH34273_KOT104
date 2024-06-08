@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import fpoly.giapdqph34273.asm_ph34273_kot104.navigation.ScreenNavigation
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -11,12 +12,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ScreenNavigation()
-//            Home(navController = null)
-//            MyBottombar()
-//            ProductDetail()
-//            Cart()
-//            CheckOut()
-//            Congrats()
         }
     }
 }

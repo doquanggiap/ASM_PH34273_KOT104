@@ -1,4 +1,4 @@
-package fpoly.giapdqph34273.asm_ph34273_kot104
+package fpoly.giapdqph34273.asm_ph34273_kot104.ui.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -43,6 +43,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavController
+import fpoly.giapdqph34273.asm_ph34273_kot104.R
+import fpoly.giapdqph34273.asm_ph34273_kot104.navigation.Screen
 
 @Preview(showBackground = true)
 @Composable

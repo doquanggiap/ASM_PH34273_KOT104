@@ -1,7 +1,8 @@
-package fpoly.giapdqph34273.asm_ph34273_kot104
+package fpoly.giapdqph34273.asm_ph34273_kot104.ui.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -52,10 +53,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.navigation.NavController
+import fpoly.giapdqph34273.asm_ph34273_kot104.R
+import fpoly.giapdqph34273.asm_ph34273_kot104.navigation.Screen
 import kotlinx.coroutines.launch
 
+
 @Composable
-fun SignUp(navController: NavController) {
+fun Login(navController: NavController) {
     preview(navController)
 }
 
@@ -67,17 +71,23 @@ private fun preview(navController: NavController? = null) {
 
 @Composable
 private fun getLayout(navController: NavController? = null) {
+
+    //trạng thái snackBarHost
     val snackbarHostState = remember { SnackbarHostState() }
+
+
+    // Tạo một CoroutineScope bằng cách sử dụng hàm rememberCoroutineScope().
+    // CoroutineScope này sẽ tồn tại cho đến khi Composable bị hủy.
+    // Điều này giúp quản lý vòng đời của các coroutine mà bạn khởi chạy từ CoroutineScope này,
+    // tức là các coroutine sẽ tự động hủy khi Composable không còn tồn tại, giúp tránh rò rỉ bộ nhớ.
     val coroutineScope = rememberCoroutineScope()
 
-    var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
+
     var password by remember { mutableStateOf("") }
     var passwordVisibility by remember { mutableStateOf(false) }
-    var cfPassword by remember { mutableStateOf("") }
-    var cfPasswordVisibility by remember { mutableStateOf(false) }
-    var keyboardCtrl = LocalSoftwareKeyboardController.current
 
+    var keyboardCtrl = LocalSoftwareKeyboardController.current
 
 
     Scaffold(
@@ -98,14 +108,25 @@ private fun getLayout(navController: NavController? = null) {
 
             thanhNgangIcon()
 
-            Text(
-                text = "WELCOME",
-                fontFamily = FontFamily(Font(R.font.merriweather_regular)),
-                fontSize = 24.sp,
-                fontWeight = FontWeight(700),
-                modifier = Modifier
-                    .padding(20.dp)
-            )
+            Column(
+                modifier = Modifier.padding(20.dp)
+            ) {
+                Text(
+                    text = "Hello !",
+                    fontFamily = FontFamily(Font(R.font.merriweather_regular)),
+                    color = Color("#909090".toColorInt()),
+                    fontSize = 30.sp,
+                    modifier = Modifier.padding(bottom = 10.dp),
+                    fontWeight = FontWeight(400)
+                )
+
+                Text(
+                    text = "WELCOME BACK",
+                    fontFamily = FontFamily(Font(R.font.merriweather_regular)),
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight(700)
+                )
+            }
 
             Column(
                 verticalArrangement = Arrangement.Center,
@@ -113,7 +134,7 @@ private fun getLayout(navController: NavController? = null) {
                 modifier = Modifier
                     .background(Color.White)
                     .fillMaxWidth(0.9f)
-                    .fillMaxHeight(0.9f)
+                    .fillMaxHeight(0.8f)
                     .shadow(
                         elevation = 10.dp,
                         spotColor = Color("#f4f5f6".toColorInt()),
@@ -121,47 +142,7 @@ private fun getLayout(navController: NavController? = null) {
             ) {
                 Column {
 
-                    // nhập tên
-                    Text(
-                        text = "Name",
-                        color = Color("#909090".toColorInt()),
-                        fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
-                        fontWeight = FontWeight(400),
-                        fontSize = 14.sp,
-                    )
-
-                    TextField(
-                        value = name,
-                        onValueChange = { name = it },
-                        modifier = Modifier.fillMaxWidth(0.8f),
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = Color.White,
-                            unfocusedContainerColor = Color.White,
-                            unfocusedIndicatorColor = Color("#E0E0E0".toColorInt()),
-                            focusedIndicatorColor = Color.Gray
-                        ),
-                        singleLine = true,
-                        trailingIcon = {
-                            IconButton(onClick = { name = "" }) {
-                                if (name.isNotEmpty()) {
-                                    Icon(
-                                        imageVector = Icons.Filled.Clear,
-                                        contentDescription = "",
-                                        modifier = Modifier
-                                            .height(20.dp)
-                                            .width(20.dp)
-                                    )
-                                }
-                            }
-                        },
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Text,
-                            imeAction = ImeAction.Next
-                        ))
-
-                    Spacer(modifier = Modifier.height(30.dp))
-
-                    //nhập email
+                    // nhập email
                     Text(
                         text = "Email",
                         color = Color("#909090".toColorInt()),
@@ -182,8 +163,9 @@ private fun getLayout(navController: NavController? = null) {
                         ),
                         singleLine = true,
                         trailingIcon = {
-                            IconButton(onClick = { email = "" }) {
-                                if (email.isNotEmpty()) {
+                            if (email.isNotEmpty()) {
+                                IconButton(onClick = { email = "" }) {
+
                                     Icon(
                                         imageVector = Icons.Filled.Clear,
                                         contentDescription = "",
@@ -201,6 +183,7 @@ private fun getLayout(navController: NavController? = null) {
                     )
 
                     Spacer(modifier = Modifier.height(30.dp))
+
 
                     // nhập password
                     Text(
@@ -223,7 +206,7 @@ private fun getLayout(navController: NavController? = null) {
                         visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Password,
-                            imeAction = ImeAction.Next
+                            imeAction = ImeAction.Done
                         ),
                         trailingIcon = {
                             IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
@@ -238,92 +221,48 @@ private fun getLayout(navController: NavController? = null) {
                         },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth(0.8f),
-                    )
-
-                    Spacer(modifier = Modifier.height(30.dp))
-
-                    // nhập lại password
-                    Text(
-                        text = "Confirm Password",
-                        color = Color("#909090".toColorInt()),
-                        fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
-                        fontWeight = FontWeight(400),
-                        fontSize = 14.sp,
-                    )
-
-                    TextField(
-                        value = cfPassword,
-                        onValueChange = { cfPassword = it },
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = Color.White,
-                            unfocusedContainerColor = Color.White,
-                            unfocusedIndicatorColor = Color("#E0E0E0".toColorInt()),
-                            focusedIndicatorColor = Color.Gray
-                        ),
-                        visualTransformation = if (cfPasswordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Password,
-                            imeAction = ImeAction.Done
-                        ),
-                        trailingIcon = {
-                            IconButton(onClick = { cfPasswordVisibility = !cfPasswordVisibility }) {
-                                Image(
-                                    painter = painterResource(id = if (cfPasswordVisibility) R.drawable.eye_slash_icon else R.drawable.eye_icon),
-                                    contentDescription = "",
-                                    modifier = Modifier
-                                        .height(20.dp)
-                                        .width(20.dp)
-                                )
-                            }
-                        },
-                        singleLine = true,
-                        modifier = Modifier.fillMaxWidth(0.8f),
                         keyboardActions = KeyboardActions(
                             onDone = {
                                 keyboardCtrl?.hide()
-                                if (name.isBlank() || email.isBlank() || password.isBlank() || cfPassword.isBlank()) {
+                                if (email.isBlank() || password.isBlank()) {
                                     coroutineScope.launch {
                                         snackbarHostState.showSnackbar("Không được để trống")
                                     }
-                                }
-                                else if (email.isBlank() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                                    coroutineScope.launch {
-                                        snackbarHostState.showSnackbar("Email không hợp lệ")
-                                    }
-
-                                }else if (password != cfPassword) {
-                                    coroutineScope.launch {
-                                        snackbarHostState.showSnackbar("Nhập lại mật khẩu sai")
-                                    }
                                 } else {
-                                    navController?.navigate(Screen.Login.route)
+                                    navController?.navigate(Screen.MyBottombar.route)
                                 }
                             })
                     )
-
                 }
 
                 Spacer(modifier = Modifier.height(30.dp))
 
-                // nút đăng ký
+                // quên mật khẩu
+                TextButton(onClick = {
+                    coroutineScope.launch {
+                        snackbarHostState.showSnackbar("Chưa có chức năng này")
+                    }
+                }) {
+                    Text(
+                        text = "Forgot Password",
+                        fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
+                        fontWeight = FontWeight(600),
+                        fontSize = 18.sp,
+                        color = Color("#303030".toColorInt()),
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(30.dp))
+
+                // nút đăng nhập
                 Button(
                     onClick = {
-                        if (name.isBlank() || email.isBlank() || password.isBlank() || cfPassword.isBlank()) {
+                        if (email.isBlank() || password.isBlank()) {
                             coroutineScope.launch {
                                 snackbarHostState.showSnackbar("Không được để trống")
                             }
-                        }
-                        else if (email.isBlank() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                            coroutineScope.launch {
-                                snackbarHostState.showSnackbar("Email không hợp lệ")
-                            }
-
-                        }else if (password != cfPassword) {
-                            coroutineScope.launch {
-                                snackbarHostState.showSnackbar("Nhập lại mật khẩu sai")
-                            }
                         } else {
-                            navController?.navigate(Screen.Login.route)
+                            navController?.navigate(Screen.MyBottombar.route)
                         }
                     },
                     colors = ButtonDefaults.buttonColors(
@@ -338,7 +277,7 @@ private fun getLayout(navController: NavController? = null) {
                         .width(285.dp)
                 ) {
                     Text(
-                        text = "SIGN UP",
+                        text = "Log in",
                         fontWeight = FontWeight(600),
                         fontSize = 18.sp,
                         fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
@@ -347,9 +286,27 @@ private fun getLayout(navController: NavController? = null) {
 
                 Spacer(modifier = Modifier.height(30.dp))
 
-                chuyenSangDangNhap(navController)
+                // chuyển sang trang đăng ký
+                chuyenSangDangKy(navController)
             }
+
+
         }
+    }
+}
+
+@Composable
+private fun chuyenSangDangKy(navController: NavController? = null) {
+    TextButton(onClick = {
+        navController?.navigate(Screen.SignUp.route)
+    }) {
+        Text(
+            text = "SIGN UP",
+            fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
+            fontWeight = FontWeight(600),
+            fontSize = 18.sp,
+            color = Color("#303030".toColorInt()),
+        )
     }
 }
 
@@ -381,29 +338,25 @@ private fun thanhNgangIcon() {
 }
 
 @Composable
-private fun chuyenSangDangNhap(navController: NavController? = null) {
+fun sofaIcon() {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .height(64.dp)
+            .width(64.dp)
+            .border(1.dp, Color("#303030".toColorInt()), RoundedCornerShape(50.dp))
 
-    TextButton(onClick = {
-        navController?.navigate(Screen.Login.route)
-    }) {
-        Row {
-            Text(
-                text = "Already have account? ",
-                fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
-                fontWeight = FontWeight(600),
-                fontSize = 14.sp,
-                color = Color("#808080".toColorInt()),
-            )
-
-            Text(
-                text = "SIGN IN",
-                fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
-                fontWeight = FontWeight(700),
-                fontSize = 14.sp,
-                color = Color("#303030".toColorInt()),
-            )
-
-        }
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.sofa_login),
+            contentDescription = "",
+            Modifier
+                .width(35.dp)
+                .height(44.dp)
+        )
     }
-
 }
+
+
+

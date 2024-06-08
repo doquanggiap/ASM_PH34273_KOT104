@@ -1,4 +1,4 @@
-package fpoly.giapdqph34273.asm_ph34273_kot104
+package fpoly.giapdqph34273.asm_ph34273_kot104.navigation
 
 enum class Screen(val route: String) {
     Boarding("Boarding"),
