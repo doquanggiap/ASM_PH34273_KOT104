@@ -1,5 +1,6 @@
 package fpoly.giapdqph34273.asm_ph34273_kot104.ui.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -30,6 +31,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -52,9 +55,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import fpoly.giapdqph34273.asm_ph34273_kot104.R
 import fpoly.giapdqph34273.asm_ph34273_kot104.navigation.Screen
+import fpoly.giapdqph34273.asm_ph34273_kot104.request.LoginRequest
+import fpoly.giapdqph34273.asm_ph34273_kot104.viewModel.ViewModelAuthenticate
 import kotlinx.coroutines.launch
 
 
@@ -70,7 +76,12 @@ private fun preview(navController: NavController? = null) {
 }
 
 @Composable
-private fun getLayout(navController: NavController? = null) {
+private fun getLayout(
+    navController: NavController? = null,
+    viewModelAuth: ViewModelAuthenticate = viewModel()
+) {
+    val context = LocalContext.current
+    val login by viewModelAuth.login
 
     //trạng thái snackBarHost
     val snackbarHostState = remember { SnackbarHostState() }
@@ -88,6 +99,24 @@ private fun getLayout(navController: NavController? = null) {
     var passwordVisibility by remember { mutableStateOf(false) }
 
     var keyboardCtrl = LocalSoftwareKeyboardController.current
+
+    fun Login() {
+        val request = LoginRequest(email, password)
+        viewModelAuth.loginViewModel(request)
+    }
+
+    LaunchedEffect(key1 = login) {
+        if (login != null) {
+            if (login?.status == 200) {
+                navController?.navigate(Screen.MyBottombar.route)
+            } else {
+                coroutineScope.launch {
+                    snackbarHostState.showSnackbar(login?.message ?: "Lỗi không xác định")
+                }
+            }
+        }
+
+    }
 
 
     Scaffold(
@@ -262,7 +291,7 @@ private fun getLayout(navController: NavController? = null) {
                                 snackbarHostState.showSnackbar("Không được để trống")
                             }
                         } else {
-                            navController?.navigate(Screen.MyBottombar.route)
+                            Login()
                         }
                     },
                     colors = ButtonDefaults.buttonColors(
