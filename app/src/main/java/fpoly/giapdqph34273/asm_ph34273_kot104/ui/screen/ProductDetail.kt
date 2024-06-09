@@ -23,6 +23,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,7 +35,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
@@ -57,6 +59,8 @@ fun ProductDetail(
         viewModelProduct.detailProductViewModel(productId)
     }
 
+    var number by remember { mutableStateOf(1) }
+
     Box {
         Box(
             modifier = Modifier
@@ -77,7 +81,6 @@ fun ProductDetail(
                         Color.White,
                         shape = RoundedCornerShape(6.dp)
                     )
-
                     .width(40.dp)
                     .height(40.dp)
             ) {
@@ -159,15 +162,6 @@ fun ProductDetail(
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-//            Image(
-//                painter = painterResource(id = R.drawable.minimalstand),
-//                contentDescription = null,
-//                Modifier
-//                    .width(323.dp)
-//                    .height(455.dp)
-//                    .align(Alignment.End)
-//                    .clip(RoundedCornerShape(bottomStart = 50.dp))
-//            )
             AsyncImage(
                 model = detailProduct?.image,
                 contentDescription = "",
@@ -226,7 +220,7 @@ fun ProductDetail(
                     ) {
 
                         IconButton(
-                            onClick = {},
+                            onClick = { number++ },
                             modifier = Modifier
                                 .size(30.dp)
                                 .background(
@@ -242,7 +236,7 @@ fun ProductDetail(
                         }
 
                         Text(
-                            text = "1",
+                            text = number.toString(),
                             fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
                             fontWeight = FontWeight(600),
                             fontSize = 18.sp,
@@ -254,7 +248,7 @@ fun ProductDetail(
                         )
 
                         IconButton(
-                            onClick = {},
+                            onClick = { number-- },
                             modifier = Modifier
                                 .size(30.dp)
                                 .background(
@@ -383,8 +377,6 @@ fun ProductDetail(
                     )
                 }
             }
-
-            // nút thêm vào yêu thích
 
 
         }
