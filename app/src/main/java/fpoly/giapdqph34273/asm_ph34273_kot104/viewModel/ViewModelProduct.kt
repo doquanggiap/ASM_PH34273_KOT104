@@ -24,4 +24,18 @@ class ViewModelProduct: ViewModel() {
             }
         }
     }
+
+    private val _detailProduct = mutableStateOf<ProductResponse?>(null)
+    val detailProduct: State<ProductResponse?> = _detailProduct
+
+    fun detailProductViewModel(productId: String?) {
+        viewModelScope.launch {
+            try {
+                _detailProduct.value = RetrofitInstance.apiService.getProductByID(productId)
+                Log.d("TAG", "thanhcong: ${_detailProduct.value}")
+            } catch (e: Exception) {
+                Log.d("TAG", "thatbai: ${e.message}")
+            }
+        }
+    }
 }

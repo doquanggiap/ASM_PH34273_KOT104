@@ -124,7 +124,7 @@ fun ItemGrid(model: ProductResponse, navController: NavController? = null) {
             modifier = Modifier
                 .clickable(
                     onClick = {
-                        navController?.navigate(Screen.ProductDetail.route)
+                        navController?.navigate("${Screen.ProductDetail.route}/${model.productID}")
                     }
                 )
         ) {

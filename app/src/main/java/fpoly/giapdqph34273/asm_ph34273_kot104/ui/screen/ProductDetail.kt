@@ -21,6 +21,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,14 +37,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.core.graphics.toColorInt
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import fpoly.giapdqph34273.asm_ph34273_kot104.R
 import fpoly.giapdqph34273.asm_ph34273_kot104.navigation.Screen
+import fpoly.giapdqph34273.asm_ph34273_kot104.viewModel.ViewModelProduct
 
 
-@Preview(showBackground = true)
 @Composable
-fun ProductDetail(navController: NavController? = null) {
+fun ProductDetail(
+    productId: String,
+    navController: NavController? = null,
+    viewModelProduct: ViewModelProduct = viewModel()
+) {
+    val detailProduct by viewModelProduct.detailProduct
+
+    LaunchedEffect(Unit) {
+        viewModelProduct.detailProductViewModel(productId)
+    }
 
     Box {
         Box(
@@ -77,8 +90,6 @@ fun ProductDetail(navController: NavController? = null) {
                 )
             }
         }
-
-
 
 
         Box(
@@ -148,10 +159,19 @@ fun ProductDetail(navController: NavController? = null) {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.minimalstand),
-                contentDescription = null,
-                Modifier
+//            Image(
+//                painter = painterResource(id = R.drawable.minimalstand),
+//                contentDescription = null,
+//                Modifier
+//                    .width(323.dp)
+//                    .height(455.dp)
+//                    .align(Alignment.End)
+//                    .clip(RoundedCornerShape(bottomStart = 50.dp))
+//            )
+            AsyncImage(
+                model = detailProduct?.image,
+                contentDescription = "",
+                modifier = Modifier
                     .width(323.dp)
                     .height(455.dp)
                     .align(Alignment.End)
@@ -167,18 +187,18 @@ fun ProductDetail(navController: NavController? = null) {
                     )
                     .fillMaxWidth()
                     .clickable(
-                        onClick = {
-//                            navController?.navigate(Screen.ProductDetail.route)
-                        })
+                        onClick = {})
             ) {
 
                 // tên sản phẩm
-                Text(
-                    text = "Minimal Stand",
-                    fontFamily = FontFamily(Font(R.font.gelasio_regular)),
-                    fontWeight = FontWeight(500),
-                    fontSize = 24.sp,
-                )
+                detailProduct?.let {
+                    Text(
+                        text = it.productName,
+                        fontFamily = FontFamily(Font(R.font.gelasio_regular)),
+                        fontWeight = FontWeight(500),
+                        fontSize = 24.sp,
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(10.dp))
 
@@ -191,7 +211,7 @@ fun ProductDetail(navController: NavController? = null) {
 
                     // giá
                     Text(
-                        text = "$ 50",
+                        text = "$ ${detailProduct?.price}",
                         fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
                         fontWeight = FontWeight(700),
                         fontSize = 30.sp,
@@ -291,16 +311,15 @@ fun ProductDetail(navController: NavController? = null) {
                 Spacer(modifier = Modifier.height(10.dp))
 
                 // mô tả
-                Text(
-                    text = "Minimal Stand is made of by natural wood. " +
-                            "The design that is very simple and minimal. " +
-                            "This is truly one of the best furnitures in any family for now. " +
-                            "With 3 different colors, you can easily select the best match for your home. ",
-                    fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
-                    fontWeight = FontWeight(300),
-                    fontSize = 14.sp,
-                    color = Color("#606060".toColorInt()),
-                )
+                detailProduct?.description?.let {
+                    Text(
+                        text = it,
+                        fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
+                        fontWeight = FontWeight(300),
+                        fontSize = 14.sp,
+                        color = Color("#606060".toColorInt()),
+                    )
+                }
 
             }
         }

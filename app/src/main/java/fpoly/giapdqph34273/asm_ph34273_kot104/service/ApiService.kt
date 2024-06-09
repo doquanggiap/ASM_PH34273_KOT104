@@ -25,8 +25,8 @@ interface ApiService {
     @GET("products")
     suspend fun getProducts(@Query("cateID") cateID: String?): List<ProductResponse>
 //
-//    @GET("get-product-by-id/{productID}")
-//    suspend fun getProductByID(@Path("productID") productID: String?): ProductResponse?
+    @GET("get-product-by-id/{productID}")
+    suspend fun getProductByID(@Path("productID") productID: String?): ProductResponse?
 
 
 
