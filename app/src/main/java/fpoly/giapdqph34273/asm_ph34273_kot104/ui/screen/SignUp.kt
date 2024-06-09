@@ -1,6 +1,5 @@
 package fpoly.giapdqph34273.asm_ph34273_kot104.ui.screen
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -101,8 +100,8 @@ private fun getLayout(
             if (register?.status == 200) {
                 navController?.popBackStack()
             } else {
-                register?.message?.let {
-                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                coroutineScope.launch {
+                    snackbarHostState.showSnackbar(register?.message ?: "Đăng ký thất bại")
                 }
             }
         }
