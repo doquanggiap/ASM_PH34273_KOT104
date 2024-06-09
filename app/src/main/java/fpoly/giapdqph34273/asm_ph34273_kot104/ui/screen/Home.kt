@@ -26,6 +26,11 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,22 +38,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import fpoly.giapdqph34273.asm_ph34273_kot104.R
 import fpoly.giapdqph34273.asm_ph34273_kot104.navigation.Screen
+import fpoly.giapdqph34273.asm_ph34273_kot104.response.ProductResponse
+import fpoly.giapdqph34273.asm_ph34273_kot104.viewModel.ViewModelCategory
+import fpoly.giapdqph34273.asm_ph34273_kot104.viewModel.ViewModelProduct
 
-@Preview(showBackground = true)
 @Composable
 fun Home(navController: NavController? = null) {
-    getLayout(navController)
-}
-
-@Composable
-private fun getLayout(navController: NavController? = null) {
 
     Scaffold(
         topBar = {
@@ -60,17 +63,24 @@ private fun getLayout(navController: NavController? = null) {
     )
 }
 
-data class ProductModel(val name: String, val image: Int, val price: Float)
 
 @Composable
 private fun NoiDung(paddingValues: PaddingValues, navController: NavController? = null) {
-    val productList = mutableListOf<ProductModel>()
-    productList.add(ProductModel("Chair", R.drawable.lamp, 100f))
-    productList.add(ProductModel("Table", R.drawable.minimalstand, 200f))
-    productList.add(ProductModel("Armchair", R.drawable.desk, 300f))
-    productList.add(ProductModel("Bed", R.drawable.chair, 400f))
-    productList.add(ProductModel("Lamp", R.drawable.lamp, 500f))
-    productList.add(ProductModel("Chair", R.drawable.chair, 100f))
+
+    val viewModelProduct: ViewModelProduct = viewModel()
+    val listProduct by viewModelProduct.listProduct
+
+
+    var cateID by remember { mutableStateOf("") }
+
+    fun categoryClick(id: String, index: Int) {
+        cateID = if (index == 0) "" else id
+    }
+
+    LaunchedEffect(cateID) {
+        viewModelProduct.listProductViewModel(cateID)
+    }
+
 
     Column(
         modifier = Modifier
@@ -80,11 +90,10 @@ private fun NoiDung(paddingValues: PaddingValues, navController: NavController? 
 //            .padding(paddingValues),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        typeList()
+        typeList(categoryClick = { id, index -> categoryClick(id, index) })
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
-//            modifier = Modifier.padding(16.dp),
             contentPadding = PaddingValues(
                 start = 16.dp,
                 top = 25.dp,
@@ -93,7 +102,7 @@ private fun NoiDung(paddingValues: PaddingValues, navController: NavController? 
             )
 
         ) {
-            items(productList) { model ->
+            items(listProduct) { model ->
                 ItemGrid(model, navController)
             }
         }
@@ -101,7 +110,7 @@ private fun NoiDung(paddingValues: PaddingValues, navController: NavController? 
 }
 
 @Composable
-fun ItemGrid(model: ProductModel, navController: NavController? = null) {
+fun ItemGrid(model: ProductResponse, navController: NavController? = null) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -119,13 +128,14 @@ fun ItemGrid(model: ProductModel, navController: NavController? = null) {
                     }
                 )
         ) {
-            Image(
-                painter = painterResource(id = model.image),
-                contentDescription = model.name,
+            AsyncImage(
+                model = model.image,
+                contentDescription = "",
                 modifier = Modifier
                     .height(200.dp)
                     .width(157.dp)
             )
+
 
             Image(
                 painter = painterResource(id = R.drawable.addtocart),
@@ -146,7 +156,7 @@ fun ItemGrid(model: ProductModel, navController: NavController? = null) {
                 .align(Alignment.Start)
         ) {
             Text(
-                text = model.name,
+                text = model.productName,
                 color = Color("#606060".toColorInt()),
                 fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
                 fontWeight = FontWeight(400),
@@ -165,28 +175,28 @@ fun ItemGrid(model: ProductModel, navController: NavController? = null) {
 }
 
 @Composable
-fun typeList() {
+fun typeList(
+    categoryClick: (id: String, index: Int) -> Unit
+) {
     val scrollState = rememberScrollState()
 
-    data class Item(val name: String, val imageId: Int)
+    val viewModelCategory: ViewModelCategory = viewModel()
+    val categories by viewModelCategory.categories
 
-    val images = listOf(
-        Item("Popular", R.drawable.star_icon),
-        Item("Chair", R.drawable.chair_icon),
-        Item("Table", R.drawable.table_icon),
-        Item("Armchair", R.drawable.armchair_icon),
-        Item("Bed", R.drawable.bed_icon),
-        Item("Lamp", R.drawable.lamp_icon),
-    )
+    LaunchedEffect(Unit) {
+        viewModelCategory.categoryViewModel()
+    }
 
     Row(
         modifier = Modifier
             .horizontalScroll(scrollState)
     ) {
-        images.forEachIndexed { index, i ->
+        categories.forEachIndexed { index, i ->
 
             Button(
-                onClick = {},
+                onClick = {
+                    categoryClick(i.cateID, index)
+                },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Transparent
                 )
@@ -208,25 +218,22 @@ fun typeList() {
                             .height(44.dp)
                             .width(44.dp)
                     ) {
-                        Image(
-                            painter = painterResource(id = i.imageId),
-                            contentDescription = "icon",
-                            modifier = Modifier
-                                .height(28.dp)
-                                .width(28.dp)
+
+                        AsyncImage(
+                            model = i.image,
+                            contentDescription = "",
+                            modifier = Modifier.size(28.dp)
                         )
                     }
                     Text(
-                        text = i.name,
+                        text = i.cateName,
                         fontFamily = FontFamily(Font(R.font.nunitosans_regular)),
                         fontWeight = FontWeight(600),
                         fontSize = 14.sp,
                         color = if (index == 0) Color("#242424".toColorInt()) else Color("#808080".toColorInt())
                     )
                 }
-
             }
-
         }
     }
 }

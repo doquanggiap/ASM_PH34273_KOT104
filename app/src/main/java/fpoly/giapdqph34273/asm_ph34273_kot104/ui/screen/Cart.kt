@@ -58,6 +58,7 @@ fun Cart(navController: NavController? = null) {
         }
     )
 }
+data class ProductModel(val name: String, val image: Int, val price: Float)
 
 @Composable
 private fun NoiDung(paddingValues: PaddingValues,navController: NavController? = null) {
